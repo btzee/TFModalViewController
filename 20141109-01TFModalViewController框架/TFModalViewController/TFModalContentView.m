@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 朱佰通. All rights reserved.
 //
 
+
+
 #import "TFModalContentView.h"
 
 
@@ -13,7 +15,7 @@
 #define ModalView_Background_Alpha 0.7
 #define ModalView_ShowScale_Default 0.75
 /** 动画时间 */
-#define Animation_Duration 1.0
+#define Animation_Duration 0.75
 
 
 @interface TFModalContentView ()
@@ -29,6 +31,10 @@
 
 /** 要显示的view的入场方向 */
 @property (nonatomic , assign) TFModalViewControllerShowDirection  direction;
+
+
+/** 动画进行标志位 */
+@property (nonatomic , assign) BOOL  animationFlag;
 
 
 @end
@@ -94,13 +100,18 @@
 
 - (void)layoutSubviews
 {
+    
     [super layoutSubviews];
     
     /** 布局底层遮板 */
     [self layoutMyBackgroundView];
 
-    /** 布局visibleView */
-    [self layoutMyVisibleView];
+    if (!self.animationFlag)
+    {
+        /** 布局visibleView */
+        [self layoutMyVisibleView];
+    
+    }
 
 }
 
@@ -186,7 +197,7 @@
 /** 进场显示动画 */
 - (void)showAnimationInWithCompletionBlock : (TFModalContentViewAnimationCompletionBlock)completionBlock
 {
-
+    self.animationFlag = YES;
     [self setVisibleViewTransformForAnimationIn];
     
     [UIView animateWithDuration:Animation_Duration animations:^{
@@ -194,9 +205,12 @@
         self.visibleView.hidden = NO;
         self.visibleView.alpha = 1.0;
         self.visibleView.transform = CGAffineTransformIdentity;
+        self.userInteractionEnabled = NO;
         
     } completion:^(BOOL finished) {
         
+        self.animationFlag = NO;
+        self.userInteractionEnabled = YES;
         if (completionBlock)
             completionBlock();
         
@@ -208,15 +222,20 @@
 /** 出场隐藏动画 */
 - (void)showAnimationOutWithCompletionBlock : (TFModalContentViewAnimationCompletionBlock)completionBlock
 {
-    //self.visibleView.transform = CGAffineTransformIdentity;
+    self.animationFlag = YES;
+    
+    self.visibleView.transform = CGAffineTransformIdentity;
     
     [UIView animateWithDuration:Animation_Duration animations:^{
-        
+
+        self.userInteractionEnabled = NO;
         [self setVisibleViewTransformForAnimationOut];
         
     } completion:^(BOOL finished) {
         
-        //self.visibleView.hidden = YES;
+        self.visibleView.hidden = YES;
+        self.animationFlag = NO;
+        self.userInteractionEnabled = YES;
 
         if (completionBlock)
             completionBlock();
@@ -267,33 +286,26 @@
 /** 设置visibleView的动画效果 : 出场 */
 - (void)setVisibleViewTransformForAnimationOut
 {
-
-    //NSLog(@"开始前%@", NSStringFromCGAffineTransform(self.visibleView.transform));
     
     switch (self.direction) {
         case TFModalViewControllerShowDirectionFromRight:
             
-//            self.visibleView.transform = CGAffineTransformMakeTranslation(0 , 100);
-            
- 
-            self.visibleView.transform = CGAffineTransformTranslate(self.visibleView.transform, 100, 100);
-           // NSLog(@"开始后%@", NSStringFromCGAffineTransform(self.visibleView.transform));
-            return;
+            self.visibleView.transform = CGAffineTransformMakeTranslation(self.visibleView.bounds.size.width , 0);
             break;
             
         case TFModalViewControllerShowDirectionFromLeft:
-            self.visibleView.transform = CGAffineTransformMakeTranslation(0 - self.visibleView.bounds.size.width, 0);
             
+            self.visibleView.transform = CGAffineTransformMakeTranslation(0 - self.visibleView.bounds.size.width, 0);
             break;
             
         case TFModalViewControllerShowDirectionFromTop:
-            self.visibleView.transform = CGAffineTransformMakeTranslation(0, 0 - self.visibleView.bounds.size.height);
             
+            self.visibleView.transform = CGAffineTransformMakeTranslation(0, 0 - self.visibleView.bounds.size.height);
             break;
             
         case TFModalViewControllerShowDirectionFromBottom:
-            self.visibleView.transform = CGAffineTransformMakeTranslation(0, self.visibleView.bounds.size.height);
             
+            self.visibleView.transform = CGAffineTransformMakeTranslation(0, self.visibleView.bounds.size.height);            
             break;
             
             

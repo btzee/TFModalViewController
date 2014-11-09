@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
 #import "TFModalViewControllerPublic.h"
 
 /** 动画完成后的回调block */

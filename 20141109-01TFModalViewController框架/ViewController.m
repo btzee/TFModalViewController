@@ -34,7 +34,7 @@
     
     
     
-    self.animei = [[TFModalContentView alloc] initWithVisibleView:testView AndScale:0.5 AndDirection:TFModalViewControllerShowDirectionFromRight];
+    self.animei = [[TFModalContentView alloc] initWithVisibleView:testView AndScale:2 AndDirection:TFModalViewControllerShowDirectionFromLeft];
     self.animei.backgroundColor = BTRandomColor;
     self.animei.frame = CGRectMake(50, 50, 200, 200);
     [self.view addSubview:self.animei];
@@ -47,7 +47,7 @@
     
     static int i = 0;
     
-    if (i  == 0)
+    if (i %2 == 0)
     {
         [self.animei showAnimationInWithCompletionBlock:^{
 //            NSLog(@"[%s--第%d行]--[动画显示完成]",__func__,__LINE__);
