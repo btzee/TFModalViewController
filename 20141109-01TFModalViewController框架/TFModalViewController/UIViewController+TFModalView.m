@@ -11,7 +11,7 @@
 #import "TFModalViewController.h"
 
 
-@interface UIViewController ()<TFModalViewControllerDelegate>
+@interface UIViewController ()
 
 @end
 
@@ -20,18 +20,6 @@
 
 
 #pragma mark - 外部调用方法
-
-///** 弹出一个控制器在当前的控制器之上. */
-//- (void)showTFModalViewControllerWithController : (UIViewController *)controller
-//{
-//    
-//    TFModalViewController * mVC = [[TFModalViewController alloc] init];
-//    mVC.TFdelegate = self;
-//    [self addChildViewController:mVC];
-//    
-//    [self.view addSubview:mVC.view];
-//
-//}
 
 
 /** 弹出一个控制器在当前的控制器之上. (默认从右侧动画形式进入 , 显示的view的size为调用者view同等size) */
@@ -62,7 +50,7 @@
 - (void)showTFModalViewControllerWithController : (UIViewController *)controller AndShowScale : (CGFloat)scale AndShowDirection : (TFModalViewControllerShowDirection)direction
 {
     TFModalViewController * modalVC = [TFModalViewController sharedModalViewController];
-    [modalVC showModalViewWithController:controller AndShowScale:scale AndShowDirection:direction FromSuperViewController:self];
+    [modalVC showModalViewWithController:controller AndShowScale:scale AndShowDirection:direction FromSuperViewController:self WithShowCompletionBlock:nil];
     
 }
 
@@ -70,7 +58,11 @@
 /** 隐藏弹出的控制器 , 当界面完全隐藏之后执行block内的代码 */
 - (void)hiddenTFModalViewControllerWithHiddenCompletionBlock : (TFModalViewControllerHiddenCompletionBlock)completionBlock
 {
-
+    TFModalViewController * modalVC = [TFModalViewController sharedModalViewController];
+    [modalVC hiddenModalViewController:self WithHiddenCompletionBlock:^{
+        if (completionBlock)
+            completionBlock();
+    }];
 
 }
 
@@ -81,27 +73,6 @@
 }
 
 
-
-
-#pragma mark - TFModalViewControllerDelegate 代理方法
-
-/** 代理方法 : 当modalViewController隐藏了以后 , 销毁modalViewController */
-- (void)TFModalViewControllerDidDisappear:(TFModalViewController *)modalViewController
-{
-
-    NSLog(@"[%s--第%d行]--[代理方法:%@隐藏了]",__func__,__LINE__,modalViewController);
-
-    NSLog(@"删除前:%@",self.childViewControllers);
-    
-    if (modalViewController.view && modalViewController.view.superview)
-        [modalViewController.view removeFromSuperview];
-    if (modalViewController)
-        [modalViewController removeFromParentViewController];
-    
-    NSLog(@"删除后:%@",self.childViewControllers);
-    
-
-}
 
 
 

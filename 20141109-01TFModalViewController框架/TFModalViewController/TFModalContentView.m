@@ -34,7 +34,7 @@
 
 
 /** 动画进行标志位 */
-@property (nonatomic , assign) BOOL  animationFlag;
+@property (nonatomic , assign) BOOL  animationOutFlag;
 
 
 @end
@@ -108,17 +108,26 @@
     
     [super layoutSubviews];
     
+    /** 布局自身的frame属性 */
+    [self layoutSelf];
+    
     /** 布局底层遮板 */
     [self layoutMyBackgroundView];
 
     /** 如果正在动画 ,则这里不改变visibleView的frame */
-    if (!self.animationFlag)
+    if (!self.animationOutFlag)
     {
         /** 布局visibleView */
         [self layoutMyVisibleView];
     
     }
 
+}
+
+/** 布局自身的frame属性 */
+- (void)layoutSelf
+{
+    self.contentSize = self.bounds.size;
 }
 
 /** 布局底层遮板 */
@@ -221,8 +230,10 @@
 /** 进场显示动画 */
 - (void)showAnimationInWithCompletionBlock : (TFModalContentViewAnimationCompletionBlock)completionBlock
 {
-    self.animationFlag = YES;
+    
     [self setVisibleViewTransformForAnimationIn];
+    
+    self.backgroundView.alpha = 0.0;
     
     [UIView animateWithDuration:Animation_Duration animations:^{
         
@@ -231,9 +242,11 @@
         self.visibleView.transform = CGAffineTransformIdentity;
         self.userInteractionEnabled = NO;
         
+        self.backgroundView.alpha = ModalView_Background_Alpha;
+        
     } completion:^(BOOL finished) {
         
-        self.animationFlag = NO;
+        
         self.userInteractionEnabled = YES;
         if (completionBlock)
             completionBlock();
@@ -246,7 +259,7 @@
 /** 出场隐藏动画 */
 - (void)showAnimationOutWithCompletionBlock : (TFModalContentViewAnimationCompletionBlock)completionBlock
 {
-    self.animationFlag = YES;
+    self.animationOutFlag = YES;
     
     self.visibleView.transform = CGAffineTransformIdentity;
     
@@ -255,10 +268,11 @@
         self.userInteractionEnabled = NO;
         [self setVisibleViewTransformForAnimationOut];
         
+        self.backgroundView.alpha = 0.0;
     } completion:^(BOOL finished) {
         
         self.visibleView.hidden = YES;
-        self.animationFlag = NO;
+        self.animationOutFlag = NO;
         self.userInteractionEnabled = YES;
 
         if (completionBlock)
@@ -337,6 +351,13 @@
             
             break;
     }
+}
+
+
+- (void)dealloc
+{
+
+    NSLog(@"[%s--第%d行]--[modalView被销毁了! -- %@]",__func__,__LINE__,self);
 }
 
 @end

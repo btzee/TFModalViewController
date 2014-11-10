@@ -7,28 +7,28 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+
 #import "TFModalViewControllerPublic.h"
 
 @class TFModalViewController;
 
-@protocol TFModalViewControllerDelegate <NSObject>
 
-@required
-
-/** 当自己被隐藏的时候告诉代理. (该方法是为了让父级销毁自己) */
-- (void)TFModalViewControllerDidDisappear : (TFModalViewController *)modalViewController;
-
-
-@end
+//@protocol TFModalViewControllerDelegate <NSObject>
+//@required
+///** 当自己被隐藏的时候告诉代理. (该方法是为了让父级销毁自己) */
+//- (void)TFModalViewControllerDidDisappear : (TFModalViewController *)modalViewController;
+//@end
 
 @interface TFModalViewController : UIViewController
 
-/** 代理 */
-@property (nonatomic , weak) id<TFModalViewControllerDelegate> TFdelegate;
+///** 代理 */
+//@property (nonatomic , weak) id<TFModalViewControllerDelegate> TFdelegate;
 
 
 /** 返回单例对象 */
 + (instancetype)sharedModalViewController;
+
 
 
 /**
@@ -38,9 +38,13 @@
  *  @param scale      显示比例 , 取值范围 (0.0~1.0] ,超出范围的值会以默认值0.75的比例显示.
  *  @param direction  弹出方向 , 见枚举值TFModalViewControllerShowDirection
  *  @param superViewController  需要弹出界面的父级控制器
+ *  @param completionBlock     界面显示完成后调用的block
  */
-- (void)showModalViewWithController : (UIViewController *)controller AndShowScale : (CGFloat)scale AndShowDirection : (TFModalViewControllerShowDirection)direction FromSuperViewController : (UIViewController *)superViewController;
+- (void)showModalViewWithController : (UIViewController *)controller AndShowScale : (CGFloat)scale AndShowDirection : (TFModalViewControllerShowDirection)direction FromSuperViewController : (UIViewController *)superViewController WithShowCompletionBlock : (TFModalViewControllerShowCompletionBlock)completionBlock;
 
+
+/** 隐藏弹出的控制器 , 当界面完全隐藏之后执行block内的代码 */
+- (void)hiddenModalViewController : (UIViewController *)controller WithHiddenCompletionBlock : (TFModalViewControllerHiddenCompletionBlock)completionBlock;
 
 
 @end

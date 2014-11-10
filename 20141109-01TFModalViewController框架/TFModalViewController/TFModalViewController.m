@@ -7,14 +7,15 @@
 //
 
 #import "TFModalViewController.h"
+#import "objc/runtime.h"
+#import "TFModalContentView.h"
 
 #define ModalView_Background_Alpha 0.7
 #define ModalView_ShowScale_Default 0.75
 
+static NSString * const TFModalViewKey = @"TFModalView_Key";
 
 @interface TFModalViewController ()
-
-@property (nonatomic , weak) UIViewController * test;
 
 @end
 
@@ -62,9 +63,8 @@ static TFModalViewController * _instance;
         
         if (_instance)
         {
-            NSLog(@"[%s--第%d行]--[view :%@]",__func__,__LINE__,_instance.view);
-            _instance.view.backgroundColor = [UIColor darkGrayColor];
-            _instance.view.alpha = ModalView_Background_Alpha;
+            _instance.view.backgroundColor = [UIColor clearColor];
+            _instance.view.alpha = 0.0;
             
         }
     });
@@ -77,9 +77,6 @@ static TFModalViewController * _instance;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    //self.view.backgroundColor = BTRandomColor;
- 
     
 }
 
@@ -95,9 +92,9 @@ static TFModalViewController * _instance;
  *  @param direction  弹出方向 , 见枚举值TFModalViewControllerShowDirection
  *  @param superViewController  需要弹出界面的父级控制器
  */
-- (void)showModalViewWithController : (UIViewController *)controller AndShowScale : (CGFloat)scale AndShowDirection : (TFModalViewControllerShowDirection)direction FromSuperViewController : (UIViewController *)superViewController
+- (void)showModalViewWithController : (UIViewController *)controller AndShowScale : (CGFloat)scale AndShowDirection : (TFModalViewControllerShowDirection)direction FromSuperViewController:(UIViewController *)superViewController WithShowCompletionBlock:(TFModalViewControllerShowCompletionBlock)completionBlock
 {
-
+ 
     /** 参数边界值判断 */
     if (scale <=0 || scale > 1 )
         scale = ModalView_ShowScale_Default;
@@ -109,67 +106,74 @@ static TFModalViewController * _instance;
         return;
     }
     
-    
-    if (self.childViewControllers.count < 1)
+    /** 判断传入的控制器是否是之前经过本方法弹出的未被收回的控制器 */
+    TFModalContentView * lastModalView = objc_getAssociatedObject(controller, (__bridge const void *)(TFModalViewKey));
+    if (lastModalView)
     {
-        /** 将本控制器遮板显示到调用的第一级控制器上 */
-        self.view.frame = superViewController.view.bounds;
-        [superViewController addChildViewController:self];
-        [superViewController.view addSubview:self.view];
-        
-        /** 将要显示的控制器添加到本控制器上 */
-        
-        CGFloat width = self.view.bounds.size.width * scale;
-        CGFloat height = self.view.bounds.size.height;
-        CGFloat x = self.view.bounds.size.width - width;
-        CGFloat y = 0;
-        
-        controller.view.frame = CGRectMake(x, y, width, height);
-        
-        [self addChildViewController:controller];
-        [self.view addSubview:controller.view];
-        
+        NSLog(@"[%s--第%d行]--[错误:方法使用错误>>请不要将同一个控制器show两次!在第二次show之前先hidden第一次的弹出.]",__func__,__LINE__);
+        return;
     }
     
+    /** 创建容器view 并将要show的控制器的view加到上面 */
+    TFModalContentView * modalView = [[TFModalContentView alloc] initWithVisibleView:controller.view AndScale:scale AndDirection:direction];
+    
+    /** 给要show的控制器添加容器view这个属性 */
+    objc_setAssociatedObject(controller, (__bridge const void *)(TFModalViewKey), modalView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
+    /** 将show的控制器添加到其主控制器上 */
+    [superViewController addChildViewController:controller];
+    [superViewController.view addSubview:modalView];
+    
+    /** 设置frame跟主控制一样 */
+    modalView.frame = superViewController.view.bounds;
+    
+    /** 在show的过程中 , 禁止用户界面交互 */
+    superViewController.view.userInteractionEnabled = NO;
+    
+    /** 开始动画showView */
+    [modalView showAnimationInWithCompletionBlock:^{
+        
+        superViewController.view.userInteractionEnabled = YES;
+        
+        if (completionBlock)
+            completionBlock();
+    }];
 
 }
 
 
-
-
-
-- (void)viewDidDisappear:(BOOL)animated
+/** 隐藏弹出的控制器 , 当界面完全隐藏之后执行block内的代码 */
+- (void)hiddenModalViewController : (UIViewController *)controller WithHiddenCompletionBlock : (TFModalViewControllerHiddenCompletionBlock)completionBlock
 {
-    [super viewDidDisappear:animated];
-    
-    NSLog(@"[%s--第%d行]--[弹出的控制器view不显示了]",__func__,__LINE__);
+    TFModalContentView * modalContentView = objc_getAssociatedObject(controller, (__bridge const void *)(TFModalViewKey));
 
-}
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    NSLog(@"[%s--第%d行]--[点击了弹出控制器]",__func__,__LINE__);
+    if (!modalContentView)
+    {
+        NSLog(@"[%s--第%d行]--[错误:该控制器不是经过[self showTFModalView...]系列方法弹出的 , 无法用该方法隐藏!]",__func__,__LINE__);
+        return;
+    }
+    
+    /** 在隐藏界面过程中 , 禁止用户交互 */
+    [UIApplication sharedApplication].keyWindow.userInteractionEnabled = NO;
+    [modalContentView showAnimationOutWithCompletionBlock:^{
+        [UIApplication sharedApplication].keyWindow.userInteractionEnabled = YES;
 
-    
-    self.view.alpha = 0.0;
-    
-    [UIView animateWithDuration:1 animations:^{
+        if (completionBlock)
+            completionBlock();
         
-        self.view.alpha = ModalView_Background_Alpha;
-    } completion:^(BOOL finished) {
+        /** 移除添加的属性 */
+        objc_removeAssociatedObjects(controller);
         
-        //self.view.hidden = YES;
-        if ([self.TFdelegate respondsToSelector:@selector(TFModalViewControllerDidDisappear:)])
-        {
-            [self.TFdelegate TFModalViewControllerDidDisappear:self];
-        }
+        /** 销毁弹出的控制器 */
+        [modalContentView removeFromSuperview];
+        [controller removeFromParentViewController];
         
     }];
     
-
-    
     
 }
+
+
 
 
 

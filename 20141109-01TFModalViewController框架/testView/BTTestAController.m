@@ -10,6 +10,7 @@
 
 #import "UIColor+BTTools.h"
 
+#import "UIViewController+TFModalView.h"
 @implementation BTTestAController
 
 
@@ -27,6 +28,7 @@
 {
     [super viewWillAppear:animated];
     
+    //self.view.backgroundColor = [UIColor yellowColor];
     
     UIButton * testButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
     testButton.center = self.view.center;
@@ -37,9 +39,19 @@
 }
 
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    NSLog(@"--%@",NSStringFromCGRect(self.view.frame));
+}
+
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     NSLog(@"[%s--第%d行]--[测试界面A被点击]",__func__,__LINE__);
+    
+    [self hiddenTFModalViewController];
 
 }
 
@@ -49,10 +61,11 @@
 
     NSLog(@"[%s--第%d行]--[]",__func__,__LINE__);
     
+    BTTestAController * test = [[BTTestAController alloc] init];
+    test.view.backgroundColor = BTRandomColor;
     
-    [self dismissViewControllerAnimated:YES completion:^{
-        NSLog(@"[%s--第%d行]--[界面完成了隐藏]",__func__,__LINE__);
-    }];
+    [self showTFModalViewControllerWithController:test AndShowScale:0.9];
+    
 }
 
 

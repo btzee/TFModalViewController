@@ -9,8 +9,12 @@
 #ifndef _0141109_01TFModalViewController___TFModalViewControllerPublic_h
 #define _0141109_01TFModalViewController___TFModalViewControllerPublic_h
 
-/** 界面隐藏后的回调block */
+/** 界面隐藏完全后的回调block */
 typedef void(^TFModalViewControllerHiddenCompletionBlock)(void);
+
+/** 界面显示完成后的回调block */
+typedef void(^TFModalViewControllerShowCompletionBlock)(void);
+
 
 /** 界面进入视野的方向 */
 typedef enum {

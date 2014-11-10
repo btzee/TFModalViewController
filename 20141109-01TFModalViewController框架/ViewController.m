@@ -45,43 +45,13 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     
-    static int i = 0;
+    NSLog(@"[%s--第%d行]--[点击了主界面]",__func__,__LINE__);
     
-    if (i %2 == 0)
-    {
-        [self.animei showAnimationInWithCompletionBlock:^{
-//            NSLog(@"[%s--第%d行]--[动画显示完成]",__func__,__LINE__);
-        }];
-    }
-    else
-    {
-        [self.animei showAnimationOutWithCompletionBlock:^{
-//            NSLog(@"[%s--第%d行]--[动画隐藏完成]",__func__,__LINE__);
-        }];
-    }
+    BTTestAController * tab = [[BTTestAController alloc] init];
+    tab.view.backgroundColor = [UIColor redColor];
     
-    i++;
-    
-//    NSLog(@"[%s--第%d行]--[点击了主界面]",__func__,__LINE__);
-//    
-//    UITableViewController * tab = [[UITableViewController alloc] init];
-//    tab.view.backgroundColor = [UIColor redColor];
-//    
-//    [self showTFModalViewControllerWithController:tab AndShowScale:0.5];
-//    
-//    NSLog(@"%@",NSStringFromCGRect(tab.view.frame));
-    
+    [self showTFModalViewControllerWithController:tab AndShowScale:1 AndShowDirection:TFModalViewControllerShowDirectionFromLeft];
 
-
-//    BTTestAController * testAVC = [[BTTestAController alloc] init];
-//    testAVC.view.backgroundColor = BTRandomColor;
-//    
-//    //[self showViewController:testAVC sender:nil];
-//
-//    //[self showDetailViewController:testAVC sender:nil];
-//   [self presentViewController:testAVC animated:YES completion:^{
-//        NSLog(@"[%s--第%d行]--[完成弹出%@]",__func__,__LINE__,testAVC);
-//    }];
 }
 
 
