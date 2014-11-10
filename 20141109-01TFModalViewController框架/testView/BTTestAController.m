@@ -43,14 +43,11 @@
 {
     [super viewDidAppear:animated];
     
-    NSLog(@"--%@",NSStringFromCGRect(self.view.frame));
 }
 
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"[%s--第%d行]--[测试界面A被点击]",__func__,__LINE__);
-    
     [self hiddenTFModalViewController];
 
 }
@@ -58,20 +55,25 @@
 
 - (void)clickButton : (UIButton *)button
 {
-
-    NSLog(@"[%s--第%d行]--[]",__func__,__LINE__);
     
     BTTestAController * test = [[BTTestAController alloc] init];
     test.view.backgroundColor = BTRandomColor;
     
-    [self showTFModalViewControllerWithController:test AndShowScale:0.9];
+    [self showTFModalViewControllerWithController:test AndShowScale:1.0 WithShowCompletionBlock:^{
+        NSLog(@"--测试界面显示了");
+    }];
     
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [test hiddenTFModalViewControllerWithHiddenCompletionBlock:^{
+            NSLog(@"--测试界面隐藏了");
+        }];
+    });
 }
 
 
 - (void)dealloc
 {
-    NSLog(@"[%s--第%d行]--[测试界面A被销毁了.]--%@",__func__,__LINE__,self);
+//    NSLog(@"[%s--第%d行]--[测试界面A被销毁了.]--%@",__func__,__LINE__,self);
 
 }
 

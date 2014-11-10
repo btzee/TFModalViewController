@@ -23,9 +23,9 @@
 
 
 /** 弹出一个控制器在当前的控制器之上. (默认从右侧动画形式进入 , 显示的view的size为调用者view同等size) */
-- (void)showTFModalViewControllerWithController : (UIViewController *)controller
+- (void)showTFModalViewControllerWithController : (UIViewController *)controller WithShowCompletionBlock : (TFModalViewControllerShowCompletionBlock)completionBlock
 {
-    [self showTFModalViewControllerWithController:controller AndShowScale:1.0];
+    [self showTFModalViewControllerWithController:controller AndShowScale:1.0 WithShowCompletionBlock:completionBlock];
 }
 
 
@@ -35,9 +35,9 @@
  *  @param controller 要显示的控制器
  *  @param scale      显示比例 , 取值范围 (0.0~1.0] ,超出范围的值会以默认值0.75的比例显示.
  */
-- (void)showTFModalViewControllerWithController : (UIViewController *)controller AndShowScale : (CGFloat)scale
+- (void)showTFModalViewControllerWithController : (UIViewController *)controller AndShowScale : (CGFloat)scale WithShowCompletionBlock : (TFModalViewControllerShowCompletionBlock)completionBlock
 {
-    [self showTFModalViewControllerWithController:controller AndShowScale:scale AndShowDirection:TFModalViewControllerShowDirectionFromRight];
+    [self showTFModalViewControllerWithController:controller AndShowScale:scale AndShowDirection:TFModalViewControllerShowDirectionFromRight WithShowCompletionBlock:completionBlock];
 }
 
 /**
@@ -47,10 +47,10 @@
  *  @param scale      显示比例 , 取值范围 (0.0~1.0] ,超出范围的值会以默认值0.75的比例显示.
  *  @param direction  弹出方向 , 见枚举值TFModalViewControllerShowDirection
  */
-- (void)showTFModalViewControllerWithController : (UIViewController *)controller AndShowScale : (CGFloat)scale AndShowDirection : (TFModalViewControllerShowDirection)direction
+- (void)showTFModalViewControllerWithController : (UIViewController *)controller AndShowScale : (CGFloat)scale AndShowDirection : (TFModalViewControllerShowDirection)direction WithShowCompletionBlock : (TFModalViewControllerShowCompletionBlock)completionBlock
 {
     TFModalViewController * modalVC = [TFModalViewController sharedModalViewController];
-    [modalVC showModalViewWithController:controller AndShowScale:scale AndShowDirection:direction FromSuperViewController:self WithShowCompletionBlock:nil];
+    [modalVC showModalViewWithController:controller AndShowScale:scale AndShowDirection:direction FromSuperViewController:self WithShowCompletionBlock:completionBlock];
     
 }
 
@@ -59,10 +59,7 @@
 - (void)hiddenTFModalViewControllerWithHiddenCompletionBlock : (TFModalViewControllerHiddenCompletionBlock)completionBlock
 {
     TFModalViewController * modalVC = [TFModalViewController sharedModalViewController];
-    [modalVC hiddenModalViewController:self WithHiddenCompletionBlock:^{
-        if (completionBlock)
-            completionBlock();
-    }];
+    [modalVC hiddenModalViewController:self WithHiddenCompletionBlock:completionBlock];
 
 }
 

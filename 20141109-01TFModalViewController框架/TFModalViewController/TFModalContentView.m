@@ -357,7 +357,7 @@
 - (void)dealloc
 {
 
-    NSLog(@"[%s--第%d行]--[modalView被销毁了! -- %@]",__func__,__LINE__,self);
+//    NSLog(@"[%s--第%d行]--[modalView被销毁了! -- %@]",__func__,__LINE__,self);
 }
 
 @end

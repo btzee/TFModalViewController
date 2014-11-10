@@ -50,7 +50,9 @@
     BTTestAController * tab = [[BTTestAController alloc] init];
     tab.view.backgroundColor = [UIColor redColor];
     
-    [self showTFModalViewControllerWithController:tab AndShowScale:1 AndShowDirection:TFModalViewControllerShowDirectionFromLeft];
+    [self showTFModalViewControllerWithController:tab AndShowScale:1 AndShowDirection:TFModalViewControllerShowDirectionFromLeft WithShowCompletionBlock:^{
+        NSLog(@"界面展示成功!");
+    }];
 
 }
 
