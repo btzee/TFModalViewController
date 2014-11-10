@@ -6,6 +6,29 @@
 //  Copyright (c) 2014年 朱佰通. All rights reserved.
 //
 
+
+/*========================== 以下为 TFModalViewController框架 使用说明 ==========================
+
+    使用说明 :
+ 
+        1. 本框架实现的功能为以动画形式展现一个控制器到屏幕界面上. 可以控制新界面进入屏幕的方向及显示比例.具体见方法说明.
+ 
+        2. 基础方法示例:
+            显示一个新控制器 : [self showTFModalViewControllerWithController:newController WithShowCompletionBlock:nil]
+            隐藏之前由本框架方法展示出来的控制器 : [self hiddenTFModalViewController]
+ 
+        3. 要展示的控制器默认都是添加到调用者的控制器之上 . 
+ 
+        4. 后续会添加show到window上的方法. 敬请关注.
+ 
+ 
+
+                                            --- 佰通 . 2014.11.11
+
+========================== 以上为 TFModalViewController框架 使用说明 ==========================*/
+
+
+
 #import <UIKit/UIKit.h>
 #import "TFModalViewControllerPublic.h"
 

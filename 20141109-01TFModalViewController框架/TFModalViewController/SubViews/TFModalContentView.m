@@ -11,11 +11,7 @@
 #import "TFModalContentView.h"
 
 
-#define ModalView_Background_Color [UIColor darkGrayColor]
-#define ModalView_Background_Alpha 0.7
-#define ModalView_ShowScale_Default 0.75
-/** 动画时间 */
-#define Animation_Duration 0.75
+
 
 
 @interface TFModalContentView ()
@@ -89,8 +85,8 @@
     {
         UIView * temp = [[UIView alloc] init];
         
-        temp.backgroundColor = ModalView_Background_Color;
-        temp.alpha = ModalView_Background_Alpha;
+        temp.backgroundColor = TF_ModalView_Background_Color;
+        temp.alpha = TF_ModalView_Background_Alpha;
         
         [self addSubview:temp];
         _backgroundView = temp ;
@@ -235,14 +231,14 @@
     
     self.backgroundView.alpha = 0.0;
     
-    [UIView animateWithDuration:Animation_Duration animations:^{
+    [UIView animateWithDuration:TF_Animation_Show_Duration animations:^{
         
         self.visibleView.hidden = NO;
         self.visibleView.alpha = 1.0;
         self.visibleView.transform = CGAffineTransformIdentity;
         self.userInteractionEnabled = NO;
         
-        self.backgroundView.alpha = ModalView_Background_Alpha;
+        self.backgroundView.alpha = TF_ModalView_Background_Alpha;
         
     } completion:^(BOOL finished) {
         
@@ -263,7 +259,7 @@
     
     self.visibleView.transform = CGAffineTransformIdentity;
     
-    [UIView animateWithDuration:Animation_Duration animations:^{
+    [UIView animateWithDuration:TF_Animation_Show_Duration animations:^{
 
         self.userInteractionEnabled = NO;
         [self setVisibleViewTransformForAnimationOut];

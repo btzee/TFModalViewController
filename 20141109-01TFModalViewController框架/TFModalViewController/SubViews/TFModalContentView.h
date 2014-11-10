@@ -10,6 +10,10 @@
 #import <Foundation/Foundation.h>
 #import "TFModalViewControllerPublic.h"
 
+/** 默认的显示比例 */
+#define ModalView_ShowScale_Default 0.75
+
+
 /** 动画完成后的回调block */
 typedef void(^TFModalContentViewAnimationCompletionBlock)(void);
 

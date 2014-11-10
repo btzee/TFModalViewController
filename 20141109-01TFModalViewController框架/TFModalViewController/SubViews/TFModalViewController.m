@@ -10,8 +10,6 @@
 #import "objc/runtime.h"
 #import "TFModalContentView.h"
 
-#define ModalView_Background_Alpha 0.7
-#define ModalView_ShowScale_Default 0.75
 
 static NSString * const TFModalViewKey = @"TFModalView_Key";
 

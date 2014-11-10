@@ -14,11 +14,11 @@
 		045D978F1A0F02BE0007689A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 045D978E1A0F02BE0007689A /* Images.xcassets */; };
 		045D97921A0F02BE0007689A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045D97901A0F02BE0007689A /* LaunchScreen.xib */; };
 		045D979E1A0F02BE0007689A /* _0141109_01TFModalViewController__Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 045D979D1A0F02BE0007689A /* _0141109_01TFModalViewController__Tests.m */; };
-		045D97AA1A0F030F0007689A /* TFModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045D97A91A0F030F0007689A /* TFModalViewController.m */; };
-		045D97AD1A0F05DB0007689A /* UIViewController+TFModalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 045D97AC1A0F05DB0007689A /* UIViewController+TFModalView.m */; };
 		045D97B11A0F06720007689A /* BTTestAController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045D97B01A0F06720007689A /* BTTestAController.m */; };
 		045D97B51A0F06A40007689A /* UIColor+BTTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 045D97B41A0F06A40007689A /* UIColor+BTTools.m */; };
-		046724821A0FA30700D4A27B /* TFModalContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 046724811A0FA30700D4A27B /* TFModalContentView.m */; };
+		048EC2861A111F1500EA64FF /* TFModalContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 048EC2801A111F1500EA64FF /* TFModalContentView.m */; };
+		048EC2871A111F1500EA64FF /* TFModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048EC2821A111F1500EA64FF /* TFModalViewController.m */; };
+		048EC2881A111F1500EA64FF /* UIViewController+TFModalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 048EC2831A111F1500EA64FF /* UIViewController+TFModalView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,7 +32,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		04388EC31A0F824B008A8EB0 /* TFModalViewControllerPublic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFModalViewControllerPublic.h; sourceTree = "<group>"; };
 		045D977E1A0F02BE0007689A /* 20141109-01TFModalViewController框架.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "20141109-01TFModalViewController框架.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		045D97821A0F02BE0007689A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		045D97831A0F02BE0007689A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -46,17 +45,18 @@
 		045D97971A0F02BE0007689A /* 20141109-01TFModalViewController框架Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "20141109-01TFModalViewController框架Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		045D979C1A0F02BE0007689A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		045D979D1A0F02BE0007689A /* _0141109_01TFModalViewController__Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _0141109_01TFModalViewController__Tests.m; sourceTree = "<group>"; };
-		045D97A81A0F030F0007689A /* TFModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFModalViewController.h; sourceTree = "<group>"; };
-		045D97A91A0F030F0007689A /* TFModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFModalViewController.m; sourceTree = "<group>"; };
-		045D97AB1A0F05DA0007689A /* UIViewController+TFModalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TFModalView.h"; sourceTree = "<group>"; };
-		045D97AC1A0F05DB0007689A /* UIViewController+TFModalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TFModalView.m"; sourceTree = "<group>"; };
 		045D97AF1A0F06720007689A /* BTTestAController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTTestAController.h; sourceTree = "<group>"; };
 		045D97B01A0F06720007689A /* BTTestAController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTTestAController.m; sourceTree = "<group>"; };
 		045D97B31A0F06A40007689A /* UIColor+BTTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+BTTools.h"; sourceTree = "<group>"; };
 		045D97B41A0F06A40007689A /* UIColor+BTTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+BTTools.m"; sourceTree = "<group>"; };
 		045D97B91A0F469E0007689A /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
-		046724801A0FA30700D4A27B /* TFModalContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFModalContentView.h; sourceTree = "<group>"; };
-		046724811A0FA30700D4A27B /* TFModalContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFModalContentView.m; sourceTree = "<group>"; };
+		048EC27F1A111F1500EA64FF /* TFModalContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFModalContentView.h; sourceTree = "<group>"; };
+		048EC2801A111F1500EA64FF /* TFModalContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFModalContentView.m; sourceTree = "<group>"; };
+		048EC2811A111F1500EA64FF /* TFModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFModalViewController.h; sourceTree = "<group>"; };
+		048EC2821A111F1500EA64FF /* TFModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFModalViewController.m; sourceTree = "<group>"; };
+		048EC2831A111F1500EA64FF /* UIViewController+TFModalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TFModalView.m"; sourceTree = "<group>"; };
+		048EC2841A111F1500EA64FF /* TFModalViewControllerPublic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFModalViewControllerPublic.h; sourceTree = "<group>"; };
+		048EC2851A111F1500EA64FF /* UIViewController+TFModalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TFModalView.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +98,7 @@
 		045D97801A0F02BE0007689A /* 20141109-01TFModalViewController框架 */ = {
 			isa = PBXGroup;
 			children = (
-				045D97A71A0F02D80007689A /* TFModalViewController */,
+				048EC27D1A111F1500EA64FF /* TFModalViewController */,
 				045D97B21A0F06A40007689A /* UIColor */,
 				045D97AE1A0F06510007689A /* testView */,
 				045D97851A0F02BE0007689A /* AppDelegate.h */,
@@ -140,20 +140,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		045D97A71A0F02D80007689A /* TFModalViewController */ = {
-			isa = PBXGroup;
-			children = (
-				04388EC31A0F824B008A8EB0 /* TFModalViewControllerPublic.h */,
-				045D97A81A0F030F0007689A /* TFModalViewController.h */,
-				045D97A91A0F030F0007689A /* TFModalViewController.m */,
-				046724801A0FA30700D4A27B /* TFModalContentView.h */,
-				046724811A0FA30700D4A27B /* TFModalContentView.m */,
-				045D97AB1A0F05DA0007689A /* UIViewController+TFModalView.h */,
-				045D97AC1A0F05DB0007689A /* UIViewController+TFModalView.m */,
-			);
-			path = TFModalViewController;
-			sourceTree = "<group>";
-		};
 		045D97AE1A0F06510007689A /* testView */ = {
 			isa = PBXGroup;
 			children = (
@@ -170,6 +156,28 @@
 				045D97B41A0F06A40007689A /* UIColor+BTTools.m */,
 			);
 			path = UIColor;
+			sourceTree = "<group>";
+		};
+		048EC27D1A111F1500EA64FF /* TFModalViewController */ = {
+			isa = PBXGroup;
+			children = (
+				048EC27E1A111F1500EA64FF /* SubViews */,
+				048EC2841A111F1500EA64FF /* TFModalViewControllerPublic.h */,
+				048EC2851A111F1500EA64FF /* UIViewController+TFModalView.h */,
+			);
+			path = TFModalViewController;
+			sourceTree = "<group>";
+		};
+		048EC27E1A111F1500EA64FF /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				048EC27F1A111F1500EA64FF /* TFModalContentView.h */,
+				048EC2801A111F1500EA64FF /* TFModalContentView.m */,
+				048EC2811A111F1500EA64FF /* TFModalViewController.h */,
+				048EC2821A111F1500EA64FF /* TFModalViewController.m */,
+				048EC2831A111F1500EA64FF /* UIViewController+TFModalView.m */,
+			);
+			path = SubViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -272,11 +280,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				045D97AA1A0F030F0007689A /* TFModalViewController.m in Sources */,
+				048EC2861A111F1500EA64FF /* TFModalContentView.m in Sources */,
+				048EC2871A111F1500EA64FF /* TFModalViewController.m in Sources */,
 				045D978A1A0F02BE0007689A /* ViewController.m in Sources */,
+				048EC2881A111F1500EA64FF /* UIViewController+TFModalView.m in Sources */,
 				045D97871A0F02BE0007689A /* AppDelegate.m in Sources */,
-				045D97AD1A0F05DB0007689A /* UIViewController+TFModalView.m in Sources */,
-				046724821A0FA30700D4A27B /* TFModalContentView.m in Sources */,
 				045D97841A0F02BE0007689A /* main.m in Sources */,
 				045D97B11A0F06720007689A /* BTTestAController.m in Sources */,
 				045D97B51A0F06A40007689A /* UIColor+BTTools.m in Sources */,

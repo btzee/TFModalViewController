@@ -14,16 +14,7 @@
 @class TFModalViewController;
 
 
-//@protocol TFModalViewControllerDelegate <NSObject>
-//@required
-///** 当自己被隐藏的时候告诉代理. (该方法是为了让父级销毁自己) */
-//- (void)TFModalViewControllerDidDisappear : (TFModalViewController *)modalViewController;
-//@end
-
 @interface TFModalViewController : UIViewController
-
-///** 代理 */
-//@property (nonatomic , weak) id<TFModalViewControllerDelegate> TFdelegate;
 
 
 /** 返回单例对象 */

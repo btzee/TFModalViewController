@@ -73,7 +73,7 @@
 
 - (void)dealloc
 {
-//    NSLog(@"[%s--第%d行]--[测试界面A被销毁了.]--%@",__func__,__LINE__,self);
+    NSLog(@"[%s--第%d行]--[测试界面A被销毁了.]--%@",__func__,__LINE__,self);
 
 }
 
