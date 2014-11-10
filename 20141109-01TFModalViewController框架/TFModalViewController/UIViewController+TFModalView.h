@@ -19,7 +19,20 @@
  
         3. 要展示的控制器默认都是添加到调用者的控制器之上 . 
  
-        4. 后续会添加show到window上的方法. 敬请关注.
+        4. 在 TFModalViewControllerPublic.h 文件中可以修改一些自定义参数 :
+ 
+            >界面显示出来后的背景蒙板颜色
+            >#define TF_ModalView_Background_Color [UIColor darkGrayColor]
+
+            >界面显示出来后的背景蒙板透明度
+            >#define TF_ModalView_Background_Alpha 0.7
+
+            >界面显示跟隐藏的动画时间
+            >#define TF_Animation_Show_Duration 0.5
+
+        5. 使用注意要点 : 新展示的控制器 , 如果是按缩放比例显示的话 , 为了不影响界面展示 , 这个控制器的内部控件frame需要同步更新 , 也就是 控件frame的计算最好放在控制器的 - (void)layoutSubViews 方法里面进行. 或者用AutoLayout.
+ 
+        6. 后续会添加show到window上的方法. 敬请关注.
  
  
 
