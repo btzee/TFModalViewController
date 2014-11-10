@@ -28,16 +28,15 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
-
-    UIView * testView = [[UIView alloc] init];
-    testView.backgroundColor = BTRandomColor;
     
+    BTTestAController * testVC = [[BTTestAController alloc] init];
     
+    [self addChildViewController:testVC];
     
-    self.animei = [[TFModalContentView alloc] initWithVisibleView:testView AndScale:2 AndDirection:TFModalViewControllerShowDirectionFromRight];
-    self.animei.backgroundColor = BTRandomColor;
-    self.animei.frame = CGRectMake(50, 50, 200, 200);
-    [self.view addSubview:self.animei];
+    //testVC.view.frame = CGRectMake(50, 50, 300, 600);
+    testVC.view.backgroundColor = BTRandomColor;
+    [self.view addSubview:testVC.view];
+    
     
 }
 
@@ -47,12 +46,12 @@
     
     NSLog(@"[%s--第%d行]--[点击了主界面]",__func__,__LINE__);
     
-    BTTestAController * tab = [[BTTestAController alloc] init];
-    tab.view.backgroundColor = [UIColor redColor];
-    
-    [self showTFModalViewControllerWithController:tab AndShowScale:1 AndShowDirection:TFModalViewControllerShowDirectionFromLeft WithShowCompletionBlock:^{
-        NSLog(@"界面展示成功!");
-    }];
+//    BTTestAController * tab = [[BTTestAController alloc] init];
+//    tab.view.backgroundColor = [UIColor redColor];
+//    
+//    [self showTFModalViewControllerWithController:tab AndShowScale:1 AndShowDirection:TFModalViewControllerShowDirectionFromLeft WithShowCompletionBlock:^{
+//        NSLog(@"界面展示成功!");
+//    }];
 
 }
 

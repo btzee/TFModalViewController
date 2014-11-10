@@ -11,6 +11,18 @@
 #import "UIColor+BTTools.h"
 
 #import "UIViewController+TFModalView.h"
+
+
+@interface BTTestAController ()
+
+@property (nonatomic , weak) UIButton * testButtonAdd;
+
+@property (nonatomic , weak) UIButton * testButtonRemove;
+
+@property (nonatomic , weak) UIViewController * testViewController;
+
+@end
+
 @implementation BTTestAController
 
 
@@ -20,55 +32,79 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = BTRandomColor;
-
-
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
     
-    //self.view.backgroundColor = [UIColor yellowColor];
+    UIButton * buttonAdd = [UIButton buttonWithType:UIButtonTypeCustom];
+    [buttonAdd setTitle:@"添加控制器" forState:UIControlStateNormal];
+    buttonAdd.backgroundColor = BTRandomColor;
     
-    UIButton * testButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
-    testButton.center = self.view.center;
+    UIButton * buttonRemove = [UIButton buttonWithType:UIButtonTypeCustom];
+    [buttonRemove setTitle:@"隐藏控制器" forState:UIControlStateNormal];
+    buttonRemove.backgroundColor = BTRandomColor;
     
-    [testButton addTarget:self action:@selector(clickButton:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:testButton];
-
-}
-
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
+    self.testButtonAdd = buttonAdd;
+    self.testButtonRemove = buttonRemove;
+    
+    [self.testButtonAdd addTarget:self action:@selector(clickAddButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.testButtonRemove addTarget:self action:@selector(clickRemoveButton:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:buttonAdd];
+    [self.view addSubview:buttonRemove];
+    
     
 }
 
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)viewDidLayoutSubviews
 {
-    [self hiddenTFModalViewController];
+    [super viewDidLayoutSubviews];
+    
+    if (self.testButtonAdd && self.testButtonRemove)
+    
+    {
+        self.testButtonAdd.bounds = CGRectMake(0, 0, 150, 30);
+        self.testButtonRemove.bounds = CGRectMake(0, 0, 150, 30);
+        
+//        self.testButtonAdd.titleLabel.frame = self.testButtonAdd.bounds;
+//        self.testButtonRemove.titleLabel.frame = self.testButtonRemove.bounds;
+        
+        self.testButtonAdd.center = CGPointMake(self.view.bounds.size.width * 0.5 , self.view.bounds.size.height * 0.5 - 20);
+        self.testButtonRemove.center = CGPointMake(self.view.bounds.size.width * 0.5 , self.view.bounds.size.height * 0.5 + 20);
+    }
 
 }
 
 
-- (void)clickButton : (UIButton *)button
+- (void)clickAddButton : (UIButton *)button
 {
+    NSLog(@"点击了增加按钮");
+    BTTestAController * testVC = [[BTTestAController alloc] init];
     
-    BTTestAController * test = [[BTTestAController alloc] init];
-    test.view.backgroundColor = BTRandomColor;
+    int num = arc4random_uniform(4);
     
-    [self showTFModalViewControllerWithController:test AndShowScale:1.0 WithShowCompletionBlock:^{
-        NSLog(@"--测试界面显示了");
+    
+    [self showTFModalViewControllerWithController:testVC AndShowScale:0.9 AndShowDirection:(TFModalViewControllerShowDirection)num WithShowCompletionBlock:^{
+        NSLog(@"界面显示完成!");
+        self.testViewController = testVC;
+        
+        //NSLog(@"--%@",NSStringFromCGRect(self.testViewController.view.frame));
+        
     }];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [test hiddenTFModalViewControllerWithHiddenCompletionBlock:^{
-            NSLog(@"--测试界面隐藏了");
-        }];
-    });
 }
+
+
+- (void)clickRemoveButton : (UIButton *)button
+{
+    NSLog(@"点击了隐藏按钮");
+
+    
+    [self hiddenTFModalViewControllerWithHiddenCompletionBlock:^{
+        NSLog(@"界面隐藏完成!");
+
+    }];
+    
+}
+
 
 
 - (void)dealloc
