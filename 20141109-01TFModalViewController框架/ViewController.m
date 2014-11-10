@@ -34,7 +34,7 @@
     
     
     
-    self.animei = [[TFModalContentView alloc] initWithVisibleView:testView AndScale:2 AndDirection:TFModalViewControllerShowDirectionFromLeft];
+    self.animei = [[TFModalContentView alloc] initWithVisibleView:testView AndScale:2 AndDirection:TFModalViewControllerShowDirectionFromRight];
     self.animei.backgroundColor = BTRandomColor;
     self.animei.frame = CGRectMake(50, 50, 200, 200);
     [self.view addSubview:self.animei];

@@ -8,14 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-#import <CoreGraphics/CoreGraphics.h>
 #import "TFModalViewControllerPublic.h"
 
 /** 动画完成后的回调block */
 typedef void(^TFModalContentViewAnimationCompletionBlock)(void);
 
 
-@interface TFModalContentView : UIView
+@interface TFModalContentView : UIScrollView
 
 /** 初始化方法 */
 - (instancetype)initWithVisibleView : (UIView *)visibleView AndScale : (CGFloat)scale AndDirection: (TFModalViewControllerShowDirection)direction;

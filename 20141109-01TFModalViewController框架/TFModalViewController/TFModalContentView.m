@@ -67,7 +67,12 @@
         
         self.scale = scale;
         self.direction = direction;
+        
+        /** 初始化容器属性 */
         self.backgroundColor = [UIColor clearColor];
+        self.showsVerticalScrollIndicator = NO;
+        self.showsHorizontalScrollIndicator = NO;
+        self.scrollEnabled = NO;
     
     }
 
@@ -106,6 +111,7 @@
     /** 布局底层遮板 */
     [self layoutMyBackgroundView];
 
+    /** 如果正在动画 ,则这里不改变visibleView的frame */
     if (!self.animationFlag)
     {
         /** 布局visibleView */
@@ -128,62 +134,80 @@
     /** 计算visibleView的size */
     CGSize size = CGSizeZero;
     
-    if (self.direction == TFModalViewControllerShowDirectionFromLeft || self.direction == TFModalViewControllerShowDirectionFromRight)
-    {
-        CGFloat height = self.bounds.size.height;
-        CGFloat width = self.bounds.size.width * self.scale;
-        
-        size = CGSizeMake(width, height);
-    }
-    else if (self.direction == TFModalViewControllerShowDirectionFromTop || self.direction == TFModalViewControllerShowDirectionFromBottom)
-    {
-        CGFloat height = self.bounds.size.height * self.scale;
-        CGFloat width = self.bounds.size.width ;
-        
-        size = CGSizeMake(width, height);
+    /** 根据入场方向设置size */
+    switch (self.direction) {
+        case TFModalViewControllerShowDirectionFromLeft:
+        case TFModalViewControllerShowDirectionFromRight:
+        {
+            CGFloat height = self.bounds.size.height;
+            CGFloat width = self.bounds.size.width * self.scale;
+            
+            size = CGSizeMake(width, height);
 
-    
+        }
+            break;
+            
+        case TFModalViewControllerShowDirectionFromTop:
+        case TFModalViewControllerShowDirectionFromBottom:
+        {
+            CGFloat height = self.bounds.size.height * self.scale;
+            CGFloat width = self.bounds.size.width ;
+            
+            size = CGSizeMake(width, height);
+        
+        }
+            break;
+            
+        default:
+            
+            NSLog(@"[%s--第%d行]--[错误:进场方向参数传入错误!]",__func__,__LINE__);
+
+            break;
     }
-    else
-    {
-        NSLog(@"[%s--第%d行]--[错误:进场方向参数传入错误!]",__func__,__LINE__);
-    }
     
-    
+
     /** 计算visibleView的位置 */
     CGPoint point = CGPointZero;
     
-    if (self.direction == TFModalViewControllerShowDirectionFromLeft || self.direction == TFModalViewControllerShowDirectionFromTop)
-    {
-        CGFloat x = 0;
-        CGFloat y = 0;
-        
-        point = CGPointMake(x, y);
- 
+    /** 根据入场方向设置size */
+    switch (self.direction) {
+        case TFModalViewControllerShowDirectionFromLeft:
+        case TFModalViewControllerShowDirectionFromTop:
+        {
+            CGFloat x = 0;
+            CGFloat y = 0;
+            
+            point = CGPointMake(x, y);
+            
+        }
+            break;
+            
+        case TFModalViewControllerShowDirectionFromRight:
+        {
+            CGFloat x = self.bounds.size.width - size.width;
+            CGFloat y = 0;
+            
+            point = CGPointMake(x, y);
+       
+        }
+            break;
+        case TFModalViewControllerShowDirectionFromBottom:
+        {
+            CGFloat x = 0;
+            CGFloat y = self.bounds.size.height - size.height;
+            
+            point = CGPointMake(x, y);
+        }
+            break;
+            
+        default:
+            
+            NSLog(@"[%s--第%d行]--[错误:进场方向参数传入错误!]",__func__,__LINE__);
+            
+            break;
     }
-    else if (self.direction == TFModalViewControllerShowDirectionFromBottom)
-    {
-        CGFloat x = 0;
-        CGFloat y = self.bounds.size.height - size.height;
-        
-        point = CGPointMake(x, y);
 
-        
-    }
-    else if (self.direction == TFModalViewControllerShowDirectionFromRight)
-    {
-        CGFloat x = self.bounds.size.width - size.width;
-        CGFloat y = 0;
-        
-        point = CGPointMake(x, y);
-        
-        
-    }
-    else
-    {
-        NSLog(@"[%s--第%d行]--[错误:进场方向参数传入错误!]",__func__,__LINE__);
-    }
-    
+
     /** 计算visibleView的frame */
     CGRect rect = CGRectMake(point.x, point.y, size.width, size.height);
     
