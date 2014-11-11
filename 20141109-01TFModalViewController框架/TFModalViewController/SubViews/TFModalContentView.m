@@ -123,6 +123,7 @@
 /** 布局自身的frame属性 */
 - (void)layoutSelf
 {
+    self.frame = self.superview.bounds;
     self.contentSize = self.bounds.size;
 }
 
