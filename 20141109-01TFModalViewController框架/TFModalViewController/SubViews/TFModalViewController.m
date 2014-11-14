@@ -117,6 +117,8 @@ static TFModalViewController * _instance;
     
     /** 给要show的控制器添加容器view这个属性 */
     objc_setAssociatedObject(controller, (__bridge const void *)(TFModalViewKey), modalView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    
+    modalView.visbleController = controller;
 
     /** 将show的控制器添加到其主控制器上 */
     [superViewController addChildViewController:controller];

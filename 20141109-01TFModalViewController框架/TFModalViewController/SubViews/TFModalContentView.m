@@ -9,6 +9,7 @@
 
 
 #import "TFModalContentView.h"
+#import "UIViewController+TFModalView.h"
 
 
 
@@ -31,6 +32,7 @@
 
 /** 动画进行标志位 */
 @property (nonatomic , assign) BOOL  animationOutFlag;
+
 
 
 @end
@@ -69,7 +71,10 @@
         self.showsVerticalScrollIndicator = NO;
         self.showsHorizontalScrollIndicator = NO;
         self.scrollEnabled = NO;
-    
+        
+        /** 添加手势 */
+        [self addMyRecognizerToBackgroundView];
+        
     }
 
     return self;
@@ -227,7 +232,7 @@
 /** 进场显示动画 */
 - (void)showAnimationInWithCompletionBlock : (TFModalContentViewAnimationCompletionBlock)completionBlock
 {
-    
+    /** 设置visibleView的动画效果 : 进场 */
     [self setVisibleViewTransformForAnimationIn];
     
     self.backgroundView.alpha = 0.0;
@@ -351,10 +356,71 @@
 }
 
 
+#pragma mark - 添加手势
+
+
+/** 添加蒙板手势 */
+- (void)addMyRecognizerToBackgroundView
+{
+    /** 添加蒙板点击手势 */
+    UITapGestureRecognizer * tapGR = [[UITapGestureRecognizer alloc] init];
+    
+    [self.backgroundView addGestureRecognizer:tapGR];
+    
+    [tapGR addTarget:self action:@selector(tapGestureRecognizerInBackgroundView:)];
+    
+    /** 添加蒙板拖拽手势 */
+    UIPanGestureRecognizer * panGR = [[UIPanGestureRecognizer alloc] init];
+    
+    [self.backgroundView addGestureRecognizer:panGR];
+    
+    [panGR addTarget:self action:@selector(tapGestureRecognizerInBackgroundView:)];
+
+
+}
+
+
+- (void)test: (UIPanGestureRecognizer *)panGR
+{
+
+NSLog(@"[%s--第%d行]--[test]",__func__,__LINE__);
+}
+
+/** 蒙板点击手势跟拖拽手势的触发方法 */
+- (void)tapGestureRecognizerInBackgroundView : (UIGestureRecognizer *)gestureRecognizer
+{
+
+    /** 判断拖拽手势的状态 , 如果是changed或end就隐藏 , 其他状态则不处理 */
+    if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]])
+    {
+        switch (gestureRecognizer.state) {
+
+            case UIGestureRecognizerStateEnded:
+            case UIGestureRecognizerStateChanged:
+                if (self.animationOutFlag)
+                    return;
+                
+                self.animationOutFlag = YES;
+                break;
+
+            default:
+                return;
+                break;
+        }
+    }
+    
+    /** 隐藏控制器 */
+    [self.visbleController hiddenTFModalViewController];
+    
+}
+
+
+#pragma mark - 其他
+
 - (void)dealloc
 {
 
-//    NSLog(@"[%s--第%d行]--[modalView被销毁了! -- %@]",__func__,__LINE__,self);
+    //NSLog(@"[%s--第%d行]--[modalView被销毁了! -- %@]",__func__,__LINE__,self);
 }
 
 @end

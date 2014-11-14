@@ -20,6 +20,10 @@ typedef void(^TFModalContentViewAnimationCompletionBlock)(void);
 
 @interface TFModalContentView : UIScrollView
 
+
+/** 在其上展示的控制器 */
+@property (nonatomic , weak) UIViewController * visbleController;
+
 /** 初始化方法 */
 - (instancetype)initWithVisibleView : (UIView *)visibleView AndScale : (CGFloat)scale AndDirection: (TFModalViewControllerShowDirection)direction;
 

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BTTestAController : UIViewController
+@interface BTTestAController : UITableViewController
 
 @end
