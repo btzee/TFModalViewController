@@ -35,6 +35,8 @@
 
 
 
+@property (nonatomic , assign) CGPoint defalutCenter;
+
 @end
 
 @implementation TFModalContentView
@@ -74,6 +76,10 @@
         
         /** 添加手势 */
         [self addMyRecognizerToBackgroundView];
+        [self addMyRecognizerToSelf];
+        
+        /** 设置KVO监听 */
+        [self.visibleView addObserver:self forKeyPath:@"center" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
         
     }
 
@@ -100,6 +106,34 @@
     return _backgroundView;
 }
 
+
+#pragma mark - KVO监听方法
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+
+//    NSLog(@"监听到数据:%@",change);
+
+    if (object == self.visibleView && [keyPath isEqualToString:@"center"])
+    {
+        NSValue * point = change[@"new"];
+        NSLog(@"监听到数据:%@",point);
+        
+        CGFloat newX = point.CGPointValue.x;
+        
+        CGFloat offsetX = newX - self.defalutCenter.x ;
+        
+        CGFloat scale = fabs(offsetX) / self.visibleView.bounds.size.width;
+        
+        if (scale > 1.0)
+            scale = 1.0;
+
+        self.backgroundView.alpha = ( 1- scale ) * TF_ModalView_Background_Alpha;
+
+    }
+    
+    
+}
 
 #pragma mark - Frame 计算方法
 
@@ -224,6 +258,9 @@
     
     self.visibleView.frame = rect;
 
+    NSLog(@"[%s--第%d行]--[布局---]",__func__,__LINE__);
+    self.defalutCenter = self.visibleView.center;
+    
 }
 
 
@@ -356,6 +393,59 @@
 }
 
 
+
+
+/** 根据偏移量移动visbleView */
+- (void)moveVisbleViewWithOffsetX : (CGFloat)offsetX
+{
+    
+    switch (self.direction) {
+        case TFModalViewControllerShowDirectionFromLeft:
+            if (CGRectGetMaxX(self.visibleView.frame) + offsetX >= self.visibleView.bounds.size.width)
+                return;
+            break;
+            
+        case TFModalViewControllerShowDirectionFromRight:
+            if (CGRectGetMaxX(self.visibleView.frame) + offsetX <= self.bounds.size.width)
+                return;
+            break;
+            
+        default:
+            return;
+            break;
+    }
+    
+    self.visibleView.center = CGPointMake(self.defalutCenter.x + offsetX, self.visibleView.center.y);
+    
+    
+}
+
+/** 以动画形式隐藏或复位visbleView */
+- (void)showAinmationForVisbleViewWithOffsetX : (CGFloat)offsetX
+{
+    
+    CGFloat x = offsetX + self.visibleView.bounds.size.width * 0.5;
+    
+    /** 根据偏移量计算是否隐藏visbleView */
+    if ((x < 0 && self.direction == TFModalViewControllerShowDirectionFromLeft) || (x > self.visibleView.bounds.size.width && self.direction == TFModalViewControllerShowDirectionFromRight))
+    {
+        [self.visbleController hiddenTFModalViewController];
+    }
+    else
+    {
+        [UIView animateWithDuration:0.5 animations:^{
+            self.userInteractionEnabled = NO;
+            self.visibleView.center = self.defalutCenter;
+        } completion:^(BOOL finished) {
+            self.userInteractionEnabled = YES;
+            
+        }];
+    }
+    
+    
+}
+
+
 #pragma mark - 添加手势
 
 
@@ -376,15 +466,10 @@
     
     [panGR addTarget:self action:@selector(tapGestureRecognizerInBackgroundView:)];
 
-
+    
 }
 
 
-- (void)test: (UIPanGestureRecognizer *)panGR
-{
-
-NSLog(@"[%s--第%d行]--[test]",__func__,__LINE__);
-}
 
 /** 蒙板点击手势跟拖拽手势的触发方法 */
 - (void)tapGestureRecognizerInBackgroundView : (UIGestureRecognizer *)gestureRecognizer
@@ -415,11 +500,75 @@ NSLog(@"[%s--第%d行]--[test]",__func__,__LINE__);
 }
 
 
+/** 添加主view的手势 */
+- (void)addMyRecognizerToSelf
+{
+
+    /** 添加蒙板拖拽手势 */
+    UIPanGestureRecognizer * panGR = [[UIPanGestureRecognizer alloc] init];
+    
+    [self addGestureRecognizer:panGR];
+    
+    [panGR addTarget:self action:@selector(panGestureRecognizerInSelf:)];
+
+
+}
+
+/** 主view拽手势的触发方法 */
+- (void)panGestureRecognizerInSelf : (UIPanGestureRecognizer *)panGR
+{
+    /** 只有从左边或右边展示出来的view才判断拖拽手势 */
+    switch (self.direction) {
+        case TFModalViewControllerShowDirectionFromLeft:
+        case TFModalViewControllerShowDirectionFromRight:
+            
+            break;
+            
+        default:
+            return;
+            break;
+    }
+    
+    CGPoint point = [panGR translationInView:self];
+    
+    /** 根据手势的状态来移动visbleView */
+    switch (panGR.state) {
+
+        case UIGestureRecognizerStateBegan:
+        case UIGestureRecognizerStateChanged:
+            self.animationOutFlag = YES;
+            /** 根据偏移量移动visbleView */
+            [self moveVisbleViewWithOffsetX:point.x];
+            
+            break;
+        case UIGestureRecognizerStateEnded:
+            self.animationOutFlag = NO;
+            /** 根据偏移量以动画形式隐藏或复位visbleView */
+            [self showAinmationForVisbleViewWithOffsetX:point.x];
+            
+            break;
+
+            
+        default:
+            break;
+    }
+    
+  
+
+}
+
+
+
+
 #pragma mark - 其他
 
 - (void)dealloc
 {
+    /** 移除监听 */
+    [self.visibleView removeObserver:self forKeyPath:@"center"];
+    
 
+    
     //NSLog(@"[%s--第%d行]--[modalView被销毁了! -- %@]",__func__,__LINE__,self);
 }
 
