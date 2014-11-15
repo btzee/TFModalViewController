@@ -99,16 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				048EC27D1A111F1500EA64FF /* TFModalViewController */,
-				045D97B21A0F06A40007689A /* UIColor */,
 				045D97AE1A0F06510007689A /* testView */,
-				045D97851A0F02BE0007689A /* AppDelegate.h */,
-				045D97861A0F02BE0007689A /* AppDelegate.m */,
-				045D97881A0F02BE0007689A /* ViewController.h */,
-				045D97891A0F02BE0007689A /* ViewController.m */,
-				045D97B91A0F469E0007689A /* PrefixHeader.pch */,
-				045D978B1A0F02BE0007689A /* Main.storyboard */,
-				045D978E1A0F02BE0007689A /* Images.xcassets */,
-				045D97901A0F02BE0007689A /* LaunchScreen.xib */,
 				045D97811A0F02BE0007689A /* Supporting Files */,
 			);
 			path = "20141109-01TFModalViewController框架";
@@ -117,6 +108,7 @@
 		045D97811A0F02BE0007689A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0495CFDA1A17B1ED0005825F /* other */,
 				045D97821A0F02BE0007689A /* Info.plist */,
 				045D97831A0F02BE0007689A /* main.m */,
 			);
@@ -178,6 +170,22 @@
 				048EC2831A111F1500EA64FF /* UIViewController+TFModalView.m */,
 			);
 			path = SubViews;
+			sourceTree = "<group>";
+		};
+		0495CFDA1A17B1ED0005825F /* other */ = {
+			isa = PBXGroup;
+			children = (
+				045D97B21A0F06A40007689A /* UIColor */,
+				045D97851A0F02BE0007689A /* AppDelegate.h */,
+				045D97861A0F02BE0007689A /* AppDelegate.m */,
+				045D97881A0F02BE0007689A /* ViewController.h */,
+				045D97891A0F02BE0007689A /* ViewController.m */,
+				045D97B91A0F469E0007689A /* PrefixHeader.pch */,
+				045D978B1A0F02BE0007689A /* Main.storyboard */,
+				045D978E1A0F02BE0007689A /* Images.xcassets */,
+				045D97901A0F02BE0007689A /* LaunchScreen.xib */,
+			);
+			name = other;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
