@@ -34,7 +34,7 @@
 @property (nonatomic , assign) BOOL  animationOutFlag;
 
 
-
+/** 记录visbleView最初显示的真实center */
 @property (nonatomic , assign) CGPoint defalutCenter;
 
 @end
@@ -114,17 +114,43 @@
 
 //    NSLog(@"监听到数据:%@",change);
 
+    /** 根据visbleView的center的变化来改变背景透明度 */
     if (object == self.visibleView && [keyPath isEqualToString:@"center"])
     {
         NSValue * point = change[@"new"];
-        NSLog(@"监听到数据:%@",point);
+        //NSLog(@"监听到数据:%@",point);
         
-        CGFloat newX = point.CGPointValue.x;
+        CGFloat scale = 0.0;
+
+        switch (self.direction) {
+            case TFModalViewControllerShowDirectionFromLeft:
+            case TFModalViewControllerShowDirectionFromRight:
+            {
+                CGFloat newX = point.CGPointValue.x;
+                CGFloat offsetX = newX - self.defalutCenter.x ;
+                
+                 scale = fabs(offsetX) / self.visibleView.bounds.size.width;
+
+            }
+                break;
+                
+            case TFModalViewControllerShowDirectionFromTop:
+            case TFModalViewControllerShowDirectionFromBottom:
+            {
+                CGFloat newY = point.CGPointValue.y;
+                CGFloat offsetY = newY - self.defalutCenter.y ;
+                
+                scale = fabs(offsetY) / self.visibleView.bounds.size.height;
+                
+            }
+                break;
+                
+            default:
+                return;
+                break;
+        }
         
-        CGFloat offsetX = newX - self.defalutCenter.x ;
-        
-        CGFloat scale = fabs(offsetX) / self.visibleView.bounds.size.width;
-        
+
         if (scale > 1.0)
             scale = 1.0;
 
@@ -396,17 +422,29 @@
 
 
 /** 根据偏移量移动visbleView */
-- (void)moveVisbleViewWithOffsetX : (CGFloat)offsetX
+- (void)moveVisbleViewWithOffset : (CGPoint)offset
 {
+    //NSLog(@"--%@",NSStringFromCGPoint(offset));
     
     switch (self.direction) {
         case TFModalViewControllerShowDirectionFromLeft:
-            if (CGRectGetMaxX(self.visibleView.frame) + offsetX >= self.visibleView.bounds.size.width)
+            if (CGRectGetMaxX(self.visibleView.frame) + offset.x >= self.visibleView.bounds.size.width)
                 return;
             break;
             
         case TFModalViewControllerShowDirectionFromRight:
-            if (CGRectGetMaxX(self.visibleView.frame) + offsetX <= self.bounds.size.width)
+            if (CGRectGetMaxX(self.visibleView.frame) + offset.x <= self.bounds.size.width)
+                return;
+            break;
+            
+            
+        case TFModalViewControllerShowDirectionFromTop:
+            if (CGRectGetMaxY(self.visibleView.frame) + offset.y >= self.visibleView.bounds.size.height)
+                return;
+            break;
+            
+        case TFModalViewControllerShowDirectionFromBottom:
+            if (CGRectGetMaxY(self.visibleView.frame) + offset.y <= self.bounds.size.height)
                 return;
             break;
             
@@ -415,19 +453,46 @@
             break;
     }
     
-    self.visibleView.center = CGPointMake(self.defalutCenter.x + offsetX, self.visibleView.center.y);
+    
+    
+    switch (self.direction) {
+        case TFModalViewControllerShowDirectionFromLeft:
+        case TFModalViewControllerShowDirectionFromRight:
+
+            self.visibleView.center = CGPointMake(self.defalutCenter.x + offset.x, self.visibleView.center.y);
+
+            break;
+            
+            
+        case TFModalViewControllerShowDirectionFromTop:
+        case TFModalViewControllerShowDirectionFromBottom:
+
+            self.visibleView.center = CGPointMake(self.visibleView.center.x , self.defalutCenter.y + offset.y);
+
+            break;
+            
+        default:
+            return;
+            break;
+    }
+    
     
     
 }
 
 /** 以动画形式隐藏或复位visbleView */
-- (void)showAinmationForVisbleViewWithOffsetX : (CGFloat)offsetX
+- (void)showAinmationForVisbleViewWithOffset : (CGPoint)offset
 {
     
-    CGFloat x = offsetX + self.visibleView.bounds.size.width * 0.5;
     
+    CGFloat x = offset.x + self.visibleView.bounds.size.width * TF_ModalView_ShowHiddenAnimation_Scale;
+    CGFloat y = offset.y + self.visibleView.bounds.size.height * TF_ModalView_ShowHiddenAnimation_Scale;
     /** 根据偏移量计算是否隐藏visbleView */
-    if ((x < 0 && self.direction == TFModalViewControllerShowDirectionFromLeft) || (x > self.visibleView.bounds.size.width && self.direction == TFModalViewControllerShowDirectionFromRight))
+    if ((x < 0 && self.direction == TFModalViewControllerShowDirectionFromLeft) ||
+        (x > (self.visibleView.bounds.size.width * TF_ModalView_ShowHiddenAnimation_Scale * 2 )&& self.direction == TFModalViewControllerShowDirectionFromRight) ||
+        (y < 0 && self.direction == TFModalViewControllerShowDirectionFromTop) ||
+        (y > (self.visibleView.bounds.size.height * TF_ModalView_ShowHiddenAnimation_Scale * 2 ) && self.direction == TFModalViewControllerShowDirectionFromBottom)
+        )
     {
         [self.visbleController hiddenTFModalViewController];
     }
@@ -521,7 +586,8 @@
     switch (self.direction) {
         case TFModalViewControllerShowDirectionFromLeft:
         case TFModalViewControllerShowDirectionFromRight:
-            
+        case TFModalViewControllerShowDirectionFromTop:
+        case TFModalViewControllerShowDirectionFromBottom:
             break;
             
         default:
@@ -538,13 +604,13 @@
         case UIGestureRecognizerStateChanged:
             self.animationOutFlag = YES;
             /** 根据偏移量移动visbleView */
-            [self moveVisbleViewWithOffsetX:point.x];
+            [self moveVisbleViewWithOffset:point];
             
             break;
         case UIGestureRecognizerStateEnded:
             self.animationOutFlag = NO;
             /** 根据偏移量以动画形式隐藏或复位visbleView */
-            [self showAinmationForVisbleViewWithOffsetX:point.x];
+            [self showAinmationForVisbleViewWithOffset:point];
             
             break;
 
