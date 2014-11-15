@@ -72,5 +72,25 @@
 
 
 
+/**
+ *  弹出一个控制器在最上层的window之上. [scale : 弹出的比例]-[direction : 弹出的方向]
+ *
+ *  @param controller 要显示的控制器
+ *  @param scale      显示比例 , 取值范围 (0.0~1.0] ,超出范围的值会以默认值0.75的比例显示.
+ *  @param direction  弹出方向 , 见枚举值TFModalViewControllerShowDirection
+ *  @param completionBlock     界面显示完成后调用的block
+ */
+- (void)showTFModalViewControllerToWindowWithController : (UIViewController *)controller AndShowScale : (CGFloat)scale AndShowDirection : (TFModalViewControllerShowDirection)direction WithShowCompletionBlock : (TFModalViewControllerShowCompletionBlock)completionBlock
+{
+
+    
+    TFModalViewController * modalVC = [TFModalViewController sharedModalViewController];
+    [modalVC showModalViewWithController:controller AndShowScale:scale AndShowDirection:direction FromSuperViewController:modalVC WithShowCompletionBlock:completionBlock];
+
+
+}
+
+
+
 
 @end

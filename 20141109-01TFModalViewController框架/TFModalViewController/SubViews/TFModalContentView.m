@@ -284,7 +284,6 @@
     
     self.visibleView.frame = rect;
 
-    NSLog(@"[%s--第%d行]--[布局---]",__func__,__LINE__);
     self.defalutCenter = self.visibleView.center;
     
 }

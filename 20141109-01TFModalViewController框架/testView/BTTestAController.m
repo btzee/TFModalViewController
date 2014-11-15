@@ -120,7 +120,7 @@
     int num = arc4random_uniform(4);
     
     
-    [self showTFModalViewControllerWithController:testVC AndShowScale:0.9 AndShowDirection:(TFModalViewControllerShowDirection)num WithShowCompletionBlock:^{
+    [self showTFModalViewControllerToWindowWithController:testVC AndShowScale:1 AndShowDirection:(TFModalViewControllerShowDirection)num WithShowCompletionBlock:^{
         //NSLog(@"界面显示完成!");
         self.testViewController = testVC;
         
