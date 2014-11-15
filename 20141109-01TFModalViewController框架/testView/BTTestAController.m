@@ -120,13 +120,23 @@
     int num = arc4random_uniform(4);
     
     
-    [self showTFModalViewControllerToWindowWithController:testVC AndShowScale:1 AndShowDirection:(TFModalViewControllerShowDirection)num WithShowCompletionBlock:^{
-        //NSLog(@"界面显示完成!");
+#warning 在这里调试 show 控制器
+    
+//    /** 将控制器show到window上 */
+//    [self showTFModalViewControllerToWindowWithController:testVC AndShowScale:1 AndShowDirection:(TFModalViewControllerShowDirection)num WithShowCompletionBlock:^{
+//        NSLog(@"界面显示完成!");
+//        self.testViewController = testVC;
+//        
+//    }];
+    
+    /** 将控制器show到自身的view上 */
+    [self showTFModalViewControllerWithController:testVC AndShowScale:0.9 AndShowDirection:(TFModalViewControllerShowDirection)num WithShowCompletionBlock:^{
+        NSLog(@"界面显示完成!");
         self.testViewController = testVC;
         
-        //NSLog(@"--%@",NSStringFromCGRect(self.testViewController.view.frame));
-        
     }];
+    
+    
     
 }
 
@@ -137,7 +147,7 @@
 
     
     [self hiddenTFModalViewControllerWithHiddenCompletionBlock:^{
-        //NSLog(@"界面隐藏完成!");
+        NSLog(@"界面隐藏完成!");
 
     }];
     

@@ -139,15 +139,13 @@ static TFModalViewController * _instance;
     
     
     /** 在show的过程中 , 禁止用户界面交互 */
-    //superViewController.view.userInteractionEnabled = NO;
-    modalView.superview.userInteractionEnabled = NO;
-    
+    [UIApplication sharedApplication].keyWindow.userInteractionEnabled = NO;
+
     /** 开始动画showView */
     [modalView showAnimationInWithCompletionBlock:^{
         
-        //superViewController.view.userInteractionEnabled = YES;
-        modalView.superview.userInteractionEnabled = YES;
-        
+        [UIApplication sharedApplication].keyWindow.userInteractionEnabled = YES;
+
         if (completionBlock)
             completionBlock();
     }];
