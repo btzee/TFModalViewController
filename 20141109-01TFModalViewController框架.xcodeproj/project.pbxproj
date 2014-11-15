@@ -19,6 +19,7 @@
 		048EC2861A111F1500EA64FF /* TFModalContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 048EC2801A111F1500EA64FF /* TFModalContentView.m */; };
 		048EC2871A111F1500EA64FF /* TFModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048EC2821A111F1500EA64FF /* TFModalViewController.m */; };
 		048EC2881A111F1500EA64FF /* UIViewController+TFModalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 048EC2831A111F1500EA64FF /* UIViewController+TFModalView.m */; };
+		0495CFDC1A17B29B0005825F /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 0495CFDB1A17B29B0005825F /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		048EC2831A111F1500EA64FF /* UIViewController+TFModalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TFModalView.m"; sourceTree = "<group>"; };
 		048EC2841A111F1500EA64FF /* TFModalViewControllerPublic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFModalViewControllerPublic.h; sourceTree = "<group>"; };
 		048EC2851A111F1500EA64FF /* UIViewController+TFModalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TFModalView.h"; sourceTree = "<group>"; };
+		0495CFDB1A17B29B0005825F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 				048EC27D1A111F1500EA64FF /* TFModalViewController */,
 				045D97AE1A0F06510007689A /* testView */,
 				045D97811A0F02BE0007689A /* Supporting Files */,
+				0495CFDB1A17B29B0005825F /* README.md */,
 			);
 			path = "20141109-01TFModalViewController框架";
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				048EC2881A111F1500EA64FF /* UIViewController+TFModalView.m in Sources */,
 				045D97871A0F02BE0007689A /* AppDelegate.m in Sources */,
 				045D97841A0F02BE0007689A /* main.m in Sources */,
+				0495CFDC1A17B29B0005825F /* README.md in Sources */,
 				045D97B11A0F06720007689A /* BTTestAController.m in Sources */,
 				045D97B51A0F06A40007689A /* UIColor+BTTools.m in Sources */,
 			);
