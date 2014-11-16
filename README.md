@@ -19,16 +19,16 @@ TFModalViewController动画弹出控制器框架
 4. 在 TFModalViewControllerPublic.h 文件中可以修改一些自定义参数 :
 
 >界面显示出来后的背景蒙板颜色
->#define TF_ModalView_Background_Color [UIColor darkGrayColor]
+  define TF_ModalView_Background_Color [UIColor darkGrayColor]
 
 >界面显示出来后的背景蒙板透明度
->#define TF_ModalView_Background_Alpha 0.7
+  define TF_ModalView_Background_Alpha 0.7
 
 >界面显示跟隐藏的动画时间
->#define TF_Animation_Show_Duration 0.5
+  define TF_Animation_Show_Duration 0.5
 
 >拖拽界面时,是否自动隐藏界面的拖拽距离比例 (这个比例系数是指拖拽的位移偏移量跟被拖拽的界面的宽度或高度的比例) 默认0.3
->#define TF_ModalView_ShowHiddenAnimation_Scale 0.3
+  define TF_ModalView_ShowHiddenAnimation_Scale 0.3
 
 5. 使用注意要点 : 新展示的控制器 , 如果是按缩放比例显示的话 , 为了不影响界面展示 , 这个控制器的内部控件frame需要同步更新 , 也就是 控件frame的计算最好放在控制器的 - (void)layoutSubViews 方法里面进行. 或者用AutoLayout.
 
